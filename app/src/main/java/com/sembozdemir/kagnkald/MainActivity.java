@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import java.util.Calendar;
@@ -24,10 +23,7 @@ public class MainActivity extends ActionBarActivity {
     private TextView mTextViewDate2;
     private TextView mTextViewResult;
 
-    int mYear,mMonth,mDay;
-    int mYear2,mMonth2,mDay2;
-
-    DateTime start, end;
+    private MyDate mStart, mEnd, mCurrentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +38,16 @@ public class MainActivity extends ActionBarActivity {
         //initiliaze current date
         setCurrentDate();
 
-        //initiliaze DateTime start and end
-        setDateTimes();
+        // Textviewları bugüne ayarla
+        mTextViewDate1.setText(mCurrentDate.formatDateTR());
+
+        mTextViewDate2.setText(mCurrentDate.formatDateTR());
+
+        //initiliaze mStart and mEnd to current date
+        setMyDates();
+
+        // initialiaze Textview
+        setResult();
 
         mTextViewDate1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,42 +63,26 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-
-
-
     }
 
-    private void setDateTimes() {
-        start = new DateTime(mYear,mMonth,mDay,0,0,0);
-        end = new DateTime(mYear2,mMonth2,mDay2,0,0,0);
-        setResult();
+    private void setMyDates() {
+        mStart = new MyDate(mCurrentDate.getDate());
+        mEnd = new MyDate(mCurrentDate.getDate());
     }
 
     private void setResult() {
-        int days = Days.daysBetween(start, end).getDays();
-        String s = Integer.toString(days);
+        int days = Days.daysBetween(mStart.getDate(), mEnd.getDate()).getDays();
+        String s = Integer.toString(Math.abs(days));
         mTextViewResult.setText(s);
     }
 
     private void setCurrentDate() {
         final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-        mYear2 = c.get(Calendar.YEAR);
-        mMonth2 = c.get(Calendar.MONTH);
-        mDay2 = c.get(Calendar.DAY_OF_MONTH);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1; // In calendar january is month 0, but in jodatime january is month 1
+        int day = c.get(Calendar.DAY_OF_MONTH);
 
-        // Textviewları ayarla
-        mTextViewDate1.setText(new StringBuilder()
-                // Month is 0 based, just add 1
-                .append(mMonth + 1).append("-").append(mDay).append("-")
-                .append(mYear).append(" "));
-
-        mTextViewDate2.setText(new StringBuilder()
-                // Month is 0 based, just add 1
-                .append(mMonth2 + 1).append("-").append(mDay2).append("-")
-                .append(mYear2).append(" "));
+        mCurrentDate = new MyDate(year, month, day);
     }
 
     @Override
@@ -108,13 +96,13 @@ public class MainActivity extends ActionBarActivity {
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case DATE1_DIALOG_ID:
-                // set date1 picker as current date
+                // set date1 picker
                 return new DatePickerDialog(this, datePickerListener1,
-                        mYear, mMonth,mDay);
+                        mStart.getYear(), mStart.getMonth() - 1, mStart.getDay());
             case DATE2_DIALOG_ID:
-                // set date2 picker as current date
+                // set date2 picker
                 return new DatePickerDialog(this, datePickerListener2,
-                        mYear2, mMonth2,mDay2);
+                       mEnd.getYear(), mEnd.getMonth() - 1, mEnd.getDay());
         }
         return null;
     }
@@ -122,28 +110,22 @@ public class MainActivity extends ActionBarActivity {
     private DatePickerDialog.OnDateSetListener datePickerListener1 = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            mYear = year;
-            mMonth = monthOfYear;
-            mDay = dayOfMonth;
-            setDateTimes();
-            mTextViewDate1.setText(new StringBuilder()
-                    // Month is 0 based, just add 1
-                    .append(monthOfYear + 1).append("-").append(dayOfMonth).append("-")
-                    .append(year).append(" "));
+            mStart.setDate(year, monthOfYear + 1, dayOfMonth);
+
+            mTextViewDate1.setText(mStart.formatDateTR());
+
+            setResult();
         }
     };
 
     private DatePickerDialog.OnDateSetListener datePickerListener2 = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            mYear2 = year;
-            mMonth2 = monthOfYear;
-            mDay2 = dayOfMonth;
-            setDateTimes();
-            mTextViewDate2.setText(new StringBuilder()
-                    // Month is 0 based, just add 1
-                    .append(monthOfYear + 1).append("-").append(dayOfMonth).append("-")
-                    .append(year).append(" "));
+            mEnd.setDate(year, monthOfYear + 1, dayOfMonth);
+
+            mTextViewDate2.setText(mEnd.formatDateTR());
+
+            setResult();
         }
     };
 
@@ -155,10 +137,29 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_my_days) {
+            /*Intent intent = new Intent(this, MyDaysActivity.class);
+            startActivity(intent);*/
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void todayClick(View view) {
+        int id = view.getId();
+
+        switch (id) {
+            case R.id.imageViewToday1:
+                mStart.setDate(mCurrentDate.getDate());
+                mTextViewDate1.setText(mStart.formatDateTR());
+                break;
+            case R.id.imageViewToday2:
+                mEnd.setDate(mCurrentDate.getDate());
+                mTextViewDate2.setText(mEnd.formatDateTR());
+                break;
+        }
+
+        setResult();
     }
 }
