@@ -18,6 +18,15 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewNew1"
+                android:src="@drawable/ic_action_new_red"
+                android:paddingTop="@dimen/imageView_new_paddingTop"
+                android:layout_alignParentLeft="true"
+                android:onClick="addNewClick" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,6 +57,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewNew2"
+                android:src="@drawable/ic_action_new_red"
+                android:paddingTop="@dimen/imageView_new_paddingTop"
+                android:layout_alignParentLeft="true"
+                android:onClick="addNewClick" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,8 +79,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageViewToday2"
-                android:src="@drawable/ic_button_today"
                 android:paddingTop="@dimen/imageView_today_paddingTop"
+                android:src="@drawable/ic_button_today"
                 android:layout_alignParentRight="true"
                 android:onClick="todayClick"/>
         </RelativeLayout>

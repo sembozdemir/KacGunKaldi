@@ -2,6 +2,7 @@ package com.sembozdemir.kagnkald;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.joda.time.Days;
 
@@ -22,6 +24,7 @@ public class MainActivity extends ActionBarActivity {
     private TextView mTextViewDate1;
     private TextView mTextViewDate2;
     private TextView mTextViewResult;
+    private DBHelper dbHelper;
 
     private MyDate mStart, mEnd, mCurrentDate;
 
@@ -29,6 +32,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // create and open SharedPreferences
+        dbHelper = new DBHelper(getApplicationContext());
 
         // initiliaze View components
         mTextViewDate1 = (TextView) findViewById(R.id.textViewDate1);
@@ -66,12 +72,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setMyDates() {
-        mStart = new MyDate(mCurrentDate.getDate());
-        mEnd = new MyDate(mCurrentDate.getDate());
+        mStart = new MyDate(mCurrentDate.getDateTime());
+        mEnd = new MyDate(mCurrentDate.getDateTime());
     }
 
     private void setResult() {
-        int days = Days.daysBetween(mStart.getDate(), mEnd.getDate()).getDays();
+        int days = Days.daysBetween(mStart.getDateTime(), mEnd.getDateTime()).getDays();
         String s = Integer.toString(Math.abs(days));
         mTextViewResult.setText(s);
     }
@@ -110,7 +116,7 @@ public class MainActivity extends ActionBarActivity {
     private DatePickerDialog.OnDateSetListener datePickerListener1 = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            mStart.setDate(year, monthOfYear + 1, dayOfMonth);
+            mStart.setDateTime(year, monthOfYear + 1, dayOfMonth);
 
             mTextViewDate1.setText(mStart.formatDateTR());
 
@@ -121,7 +127,7 @@ public class MainActivity extends ActionBarActivity {
     private DatePickerDialog.OnDateSetListener datePickerListener2 = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            mEnd.setDate(year, monthOfYear + 1, dayOfMonth);
+            mEnd.setDateTime(year, monthOfYear + 1, dayOfMonth);
 
             mTextViewDate2.setText(mEnd.formatDateTR());
 
@@ -138,8 +144,9 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_my_days) {
-            /*Intent intent = new Intent(this, MyDaysActivity.class);
-            startActivity(intent);*/
+            Intent intent = new Intent(this, MyDaysActivity.class);
+            intent.putExtra("currentDate", mCurrentDate);
+            startActivity(intent);
             return true;
         }
 
@@ -151,15 +158,37 @@ public class MainActivity extends ActionBarActivity {
 
         switch (id) {
             case R.id.imageViewToday1:
-                mStart.setDate(mCurrentDate.getDate());
+                mStart.setDateTime(mCurrentDate.getDateTime());
                 mTextViewDate1.setText(mStart.formatDateTR());
                 break;
             case R.id.imageViewToday2:
-                mEnd.setDate(mCurrentDate.getDate());
+                mEnd.setDateTime(mCurrentDate.getDateTime());
                 mTextViewDate2.setText(mEnd.formatDateTR());
                 break;
         }
 
         setResult();
+    }
+
+    public void addNewClick(View view) {
+        int id = view.getId();
+        DBDate dbDate;
+
+        switch (id) {
+            case R.id.imageViewNew1:
+                // db e ekle
+                // TODO : dialogla açıklama eklenmesi istensin
+                dbDate = new DBDate(mStart.toString(), "Açıklama ekleyin");
+                dbHelper.insertDate(dbDate);
+                Toast.makeText(this, mStart.formatDateTR() + " " + getString(R.string.toast_adding_endtext), Toast.LENGTH_LONG).show();
+                break;
+            case R.id.imageViewNew2:
+                // db e ekle
+                // TODO : dialogla açıklama eklenmesi istensin
+                dbDate = new DBDate(mEnd.toString(), "Açıklama ekleyin");
+                dbHelper.insertDate(dbDate);
+                Toast.makeText(this, mEnd.formatDateTR() + " " + getString(R.string.toast_adding_endtext), Toast.LENGTH_LONG).show();
+                break;
+        }
     }
 }
