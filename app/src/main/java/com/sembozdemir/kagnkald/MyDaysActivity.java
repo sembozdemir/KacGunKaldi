@@ -59,14 +59,15 @@ public class MyDaysActivity extends ActionBarActivity {
         mTextView = (TextView) findViewById(R.id.textViewEmpty);
         mListView = (ListView) findViewById(R.id.listViewMyDays);
 
-        // opening db
+        // open db
         dbHelper = new DBHelper(getApplicationContext());
-
-        // todo: set visibility of empty text
-        mTextView.setVisibility(View.INVISIBLE);
 
         // update View
         updateListView();
+
+        // set visibility of empty text if list is empty
+        if(mAdapter.getDateList().isEmpty())
+            mTextView.setVisibility(View.VISIBLE);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String NAME_DATABASE = "myDatesData7";
+    private static final String NAME_DATABASE = "myDatesDB";
     // Contacts table name
     private static final String NAME_TABLE = "Dates";
     // Field names
