@@ -11,5 +11,11 @@
     <string name="action_my_days">Günlerim</string>
     <string name="action_new">Ekle</string>
     <string name="toast_adding_endtext"> Günlerim\'e eklendi.</string>
+    <string name="context_menu_x_items_selected">" Seçildi"</string>
+    <string name="action_delete">Sil</string>
+    <string name="default_description_text">Açıklama Ekleyin</string>
+    <string name="new_date_dialog_title">Yeni Tarih Ekleyin</string>
+    <string name="edittext_dialog_description_hint">Açıklama...</string>
+    <string name="edit_date_dialog_title">Düzenle</string>
 
 </resources>

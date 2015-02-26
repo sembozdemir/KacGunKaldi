@@ -43,6 +43,17 @@ public class MyDate implements Serializable {
         dateTime = new DateTime(year, month, day, 0, 0, 0);
     }
 
+    public void setDateTime(String dateString) {
+        String[] tokens = dateString.split(Pattern.quote("."));
+        Log.d("MyDate", "tokens: " + tokens[0] + "/" + tokens[1] + "/" + tokens[2]);
+        int day = Integer.parseInt(tokens[0]);
+        int month = Integer.parseInt(tokens[1]);
+        int year = Integer.parseInt(tokens[2]);
+
+        dateTime = new DateTime(year,month,day,0,0,0);
+        Log.d("MyDate", "String Format control: " + formatDate());
+    }
+
     public DateTime getDateTime() {
         return dateTime;
     }

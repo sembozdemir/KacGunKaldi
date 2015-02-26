@@ -7,19 +7,21 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/listview_row_vertical_margin"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="?android:attr/activatedBackgroundIndicator">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/listview_row_height"
-        android:layout_weight="0.8">
+        android:layout_weight="0.2">
 
         <TextView
             android:id="@+id/row_textviewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
+            android:textSize="26sp"
+            android:textStyle="bold"
             android:text="Date"
             android:layout_marginLeft="2dp" />
 
@@ -34,10 +36,10 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="40dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/listview_row_height"
-        android:background="#F44"
-        android:layout_weight="0.2">
+        android:background="#03a9f4"
+        android:layout_weight="0.8">
 
         <TextView
             android:layout_width="wrap_content"

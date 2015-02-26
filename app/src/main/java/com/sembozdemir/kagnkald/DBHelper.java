@@ -54,6 +54,32 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteDate(DBDate date) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String whereClause = "id=" + date.getId();
+
+        db.delete(NAME_TABLE, whereClause, null );
+        Log.d("DBHelper", "DB'den silindi: " + date.getDate());
+
+        db.close();
+    }
+
+    public void updateDate(DBDate oldDate, DBDate newDate) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String whereClause = "id=" + oldDate.getId();
+
+        ContentValues values = new ContentValues();
+        values.put(NAME_DATE, newDate.getDate());
+        values.put(NAME_DESCRIPTION, newDate.getDescription());
+        
+        db.update(NAME_TABLE, values, whereClause, null);
+        Log.d("DBHelper", "DB'de güncelleme: " + oldDate.getDate() + ">>>" + newDate.getDate());
+
+        db.close();
+    }
+
     public List<DBDate> getAllDates() {
         List<DBDate> listDates = new ArrayList<DBDate>();
         SQLiteDatabase db = getWritableDatabase();
@@ -76,6 +102,5 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return listDates;
     }
-
 
 }

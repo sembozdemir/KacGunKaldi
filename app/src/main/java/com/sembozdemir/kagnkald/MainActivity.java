@@ -1,14 +1,18 @@
 package com.sembozdemir.kagnkald;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -145,7 +149,6 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_my_days) {
             Intent intent = new Intent(this, MyDaysActivity.class);
-            intent.putExtra("currentDate", mCurrentDate);
             startActivity(intent);
             return true;
         }
@@ -172,23 +175,54 @@ public class MainActivity extends ActionBarActivity {
 
     public void addNewClick(View view) {
         int id = view.getId();
-        DBDate dbDate;
+
 
         switch (id) {
             case R.id.imageViewNew1:
                 // db e ekle
-                // TODO : dialogla açıklama eklenmesi istensin
-                dbDate = new DBDate(mStart.toString(), "Açıklama ekleyin");
-                dbHelper.insertDate(dbDate);
-                Toast.makeText(this, mStart.formatDateTR() + " " + getString(R.string.toast_adding_endtext), Toast.LENGTH_LONG).show();
+                addNewDate(mStart);
                 break;
             case R.id.imageViewNew2:
                 // db e ekle
-                // TODO : dialogla açıklama eklenmesi istensin
-                dbDate = new DBDate(mEnd.toString(), "Açıklama ekleyin");
-                dbHelper.insertDate(dbDate);
-                Toast.makeText(this, mEnd.formatDateTR() + " " + getString(R.string.toast_adding_endtext), Toast.LENGTH_LONG).show();
+                addNewDate(mEnd);
                 break;
         }
     }
+
+    private void addNewDate(MyDate date) {
+        final MyDate toAdd = date;
+
+        // Inflate Layout
+        LayoutInflater li = LayoutInflater.from(this);
+        View layoutDialog = li.inflate(R.layout.dialog_new_date_description, null);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle(getString(R.string.new_date_dialog_title));
+        alert.setView(layoutDialog);
+
+        // Set an EditText view to get user input
+        final EditText input = (EditText) layoutDialog.findViewById(R.id.editTextDialogDescription);
+
+        alert.setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                DBDate dbDate = new DBDate(toAdd.toString(), input.getText().toString());
+                dbHelper.insertDate(dbDate);
+                Toast.makeText(MainActivity.this, toAdd.formatDateTR() + " " + getString(R.string.toast_adding_endtext), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        alert.setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        AlertDialog dialog = alert.create();
+
+        dialog.show();
+    }
+
+
 }
