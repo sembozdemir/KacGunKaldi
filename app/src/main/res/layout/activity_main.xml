@@ -18,12 +18,23 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewNew1"
+                android:src="@drawable/ic_button_new"
+                android:paddingTop="@dimen/imageView_new_paddingTop"
+                android:layout_alignParentLeft="true"
+                android:onClick="addNewClick" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date 1"
                 android:padding="@dimen/textview_date_padding"
                 android:textSize="@dimen/textview_date_size"
+                android:textStyle="bold"
+                android:textColor="#FFF"
                 android:id="@+id/textViewDate1"
                 android:layout_centerHorizontal="true" />
 
@@ -48,12 +59,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageViewNew2"
+                android:src="@drawable/ic_button_new"
+                android:paddingTop="@dimen/imageView_new_paddingTop"
+                android:layout_alignParentLeft="true"
+                android:onClick="addNewClick" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date 2"
                 android:padding="@dimen/textview_date_padding"
                 android:textSize="@dimen/textview_date_size"
+                android:textStyle="bold"
+                android:textColor="#FFF"
                 android:id="@+id/textViewDate2"
                 android:layout_centerHorizontal="true" />
 
@@ -61,8 +83,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageViewToday2"
-                android:src="@drawable/ic_button_today"
                 android:paddingTop="@dimen/imageView_today_paddingTop"
+                android:src="@drawable/ic_button_today"
                 android:layout_alignParentRight="true"
                 android:onClick="todayClick"/>
         </RelativeLayout>
@@ -79,6 +101,8 @@
             android:id="@+id/textViewResult"
             android:padding="@dimen/textview_date_padding"
             android:textSize="@dimen/textview_result_size"
+            android:textStyle="bold"
+            android:textColor="#FFF"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>

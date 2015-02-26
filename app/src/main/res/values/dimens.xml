@@ -1,9 +1,13 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">10dp</dimen>
+    <dimen name="activity_vertical_margin">10dp</dimen>
     <dimen name="textview_date_size">32sp</dimen>
     <dimen name="textview_date_padding">14dp</dimen>
-    <dimen name="textview_result_size">65sp</dimen>
-    <dimen name="imageView_today_paddingTop">18dp</dimen>
+    <dimen name="textview_result_size">80sp</dimen>
+    <dimen name="imageView_today_paddingTop">8dp</dimen>
+    <dimen name="empty_mydays_label_padding">25dp</dimen>
+    <dimen name="listview_row_height">60dp</dimen>
+    <dimen name="listview_row_vertical_margin">4dp</dimen>
+    <dimen name="imageView_new_paddingTop">4dp</dimen>
 </resources>
